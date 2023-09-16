@@ -2,6 +2,8 @@ let iconCart = document.querySelector(".iconCart");
 let cart = document.querySelector(".cart");
 let container = document.querySelector(".container");
 let close = document.querySelector(".close");
+let cartHeading = document.querySelector(".cart__heading");
+
 let overallQuantity = document.querySelector(".overall__quantity");
 let overallPrice = document.querySelector(".overall__price");
 iconCart.addEventListener("click", function () {
@@ -14,6 +16,10 @@ iconCart.addEventListener("click", function () {
   }
 });
 close.addEventListener("click", function () {
+  cart.style.right = "-100%";
+  container.style.transform = "translateX(0)";
+});
+cartHeading.addEventListener("click", function () {
   cart.style.right = "-100%";
   container.style.transform = "translateX(0)";
 });
