@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "name": "Bitter Sweet",
+        "price": 150,
+        "image": "images/bittersweet-chocolate.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Cocoa Powder",
+        "price": 200,
+        "image": "images/Cocoa-Powder.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Couverture",
+        "price": 300,
+        "image": "images/Couverture-Chocolate.jpg"
+    }
+    ,
+    {
+        "id": 4,
+        "name": "Dark",
+        "price": 90,
+        "image": "images/dark-chocolate.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Milk Chocolate",
+        "price": 70,
+        "image": "images/milk-chocolate.jpg"
+    },
+    {
+        "id": "6",
+        "name": "Semisweet",
+        "price": 45,
+        "image": "images/Semisweet-Chocolate.jpg"
+    },
+    {
+        "id": "7",
+        "name": "Sweet German",
+        "price": 380,
+        "image": "images/Sweet-German-chocolate.jpg"
+    },
+    {
+        "id": "8",
+        "name": "Unsweetended",
+        "price": 120,
+        "image": "images/Unsweetened-chocolate.jpg"
+    },
+    {
+        "id": "9",
+        "name": "White Chocolate",
+        "price": 190,
+        "image": "images/White-Chocolate.jpg"
+    }
+]
