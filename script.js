@@ -3,9 +3,6 @@ let cart = document.querySelector(".cart");
 let container = document.querySelector(".container");
 let close = document.querySelector(".close");
 let cartHeading = document.querySelector(".cart__heading");
-
-let overallQuantity = document.querySelector(".overall__quantity");
-let overallPrice = document.querySelector(".overall__price");
 iconCart.addEventListener("click", function () {
   if (cart.style.right == "-100%") {
     cart.style.right = "0";
@@ -57,39 +54,28 @@ function addDataToHTML() {
 //use cookie so the cart doesn't get lost on refresh page
 
 let listCart = [];
-function checkCart() {
-  var cookieValue = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("listCart="));
-  if (cookieValue) {
-    listCart = JSON.parse(cookieValue.split("=")[1]);
-  } else {
-    listCart = [];
-  }
-}
-checkCart();
 function addCart($idProduct) {
   let productsCopy = JSON.parse(JSON.stringify(products));
   // If this product is not in the cart
-
+  let totalQuantity = getTotalCartItems();
   if (!listCart[$idProduct]) {
     listCart[$idProduct] = productsCopy.filter(
       (product) => product.id == $idProduct
     )[0];
     listCart[$idProduct].quantity = 1;
-  } else {
+  } else if (totalQuantity <= 7) {
     //If this product is already in the cart.
     //I just increased the quantity
+
     listCart[$idProduct].quantity++;
+  } else if (totalQuantity == 8) {
+    alert("Quantity should be less than 8");
   }
-  document.cookie =
-    "listCart=" +
-    JSON.stringify(listCart) +
-    "; expires=Thu, 31 Dec 2025 23:59:59 UTC; path=/;";
 
   addCartToHTML();
 }
 addCartToHTML();
+
 function addCartToHTML() {
   // clear data default
   let listCartHTML = document.querySelector(".listCart");
@@ -99,6 +85,7 @@ function addCartToHTML() {
   let totalHTML = document.querySelector(".totalQuantity");
   let totalQuantity = 0;
   let totalPrice = 0;
+
   // if has product in Cart
   if (listCart) {
     listCart.forEach((product) => {
@@ -120,34 +107,40 @@ function addCartToHTML() {
         totalPrice = totalPrice + product.price * product.quantity;
       }
     });
+
+    totalHTML.innerText = totalQuantity;
+    if (totalQuantity <= 8) {
+      overallQuantity.innerHTML = `Total Quantity -  ${totalQuantity}`;
+      overallPrice.innerHTML = ` Total Price - ₹${totalPrice}`;
+    }
+    if (totalQuantity > 8) {
+      alert("Quantity should be less than 8");
+    }
   }
-  totalHTML.innerText = totalQuantity;
-  overallQuantity.innerHTML = `Total Quantity -  ${totalQuantity}`;
-  overallPrice.innerHTML = ` Total Price - ₹${totalPrice}`;
 }
+
+// Function to update the total price in the cart HTML
 function changeQuantity($idProduct, $type) {
-  switch ($type) {
-    case "+":
-      listCart[$idProduct].quantity++;
-      break;
-    case "-":
-      listCart[$idProduct].quantity--;
+  // Check if the total quantity is less than 8 before changing the quantity
+  let totalQuantity = getTotalCartItems();
 
-      // if quantity <= 0 then remove product in cart
-      if (listCart[$idProduct].quantity <= 0) {
-        delete listCart[$idProduct];
-      }
-      break;
-
-    default:
-      break;
+  if ($type === "+" && totalQuantity < 8) {
+    listCart[$idProduct].quantity++;
+  } else if ($type === "-" && listCart[$idProduct].quantity >= 1) {
+    // Allow decrementing the quantity if it's greater than 1
+    listCart[$idProduct].quantity--;
   }
-  // save new data in cookie
-  document.cookie =
-    "listCart=" +
-    JSON.stringify(listCart) +
-    "; expires=Thu, 31 Dec 2025 23:59:59 UTC; path=/;";
-  // reload html view cart
+
   addCartToHTML();
 }
-// Function to update the total price in the cart HTML
+
+// Function to calculate the total quantity of items in the cart
+function getTotalCartItems() {
+  let totalQuantity = 0;
+  for (let productId in listCart) {
+    if (listCart.hasOwnProperty(productId)) {
+      totalQuantity += listCart[productId].quantity;
+    }
+  }
+  return totalQuantity;
+}
